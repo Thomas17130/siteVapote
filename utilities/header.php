@@ -82,4 +82,5 @@ if (strpos($index_page, $current_url) !== FALSE || strpos($index_page . 'index.p
                     "href="shop.php">Shop</a></li>
             </ul>
         </nav>
+
     </header>
