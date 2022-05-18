@@ -22,6 +22,8 @@ $shop_page = $domain . 'shop.php';
 $shop_name = 'Boutique';
 $register_page = $domain . 'registerForm.php';
 $register_name = 'Mon formulaire d\'enregistrement';
+$login_page = $domain . 'loginHandler.php';
+$login_name = 'Connexion';
 
 
 $current_url = $_SERVER['SCRIPT_NAME']; 
@@ -52,8 +54,15 @@ if (strpos($index_page, $current_url) !== FALSE || strpos($index_page . 'index.p
 </head>
 <body>
     <header>
-        <h1><?php echo $title; ?>
-        </h1>
+      <div class="mx-3 d-flex justify-content-end">
+        <h1 class="text-light"><?php echo $title; ?></h1>
+        <?php if(!isset($_SESSION['id'])): ?>
+        <button type="button" class="btn btn-warning"><a class="text-decoration-none text-light" href="login.php">Sign In</a></button>
+        <button type="button" class="btn btn-info"><a class="text-decoration-none text-light" href="registerForm.php">Sign Up</a></button>
+        <?php elseif(isset($_SESSION['id'])): ?>
+        <button type="button" class="btn btn-danger"><a class="text-decoration-none text-light" href="logoutHandler.php">Log Out</a></button>
+        <?php endif; ?>
+        </div>
         <nav class="bg-primary py-2">
             <ul class="nav justify-content-center">
                 <li class=" nav-items"><a class="nav-link  text-light 
@@ -73,10 +82,4 @@ if (strpos($index_page, $current_url) !== FALSE || strpos($index_page . 'index.p
                     "href="shop.php">Shop</a></li>
             </ul>
         </nav>
-        <?php if(!isset($_SESSION['id'])): ?>
-        <button type="button" class="btn btn-warning"><a class="nav-link text-light" href="login.php">Sign In</a></button>
-        <button type="button" class="btn btn-info"><a class="nav-link text-light" href="registerForm.php">Sign Up</a></button>
-        <?php elseif(isset($_SESSION['id'])): ?>
-        <button type="button" class="btn btn-danger"><a class="nav-link text-light" href="">Log Out</a></button>
-        <?php endif; ?>
     </header>

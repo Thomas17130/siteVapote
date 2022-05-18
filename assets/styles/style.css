@@ -12,3 +12,19 @@
 h1{
     font-family: 'Courier New', Courier, monospace;
 }
+header{
+    height: 200px;
+    background: url(../img/vapoteHeader.png) no-repeat fixed;
+    background-position: center;
+    background-size: cover;
+}
+header div{
+    height: 144px;
+    display: flex;
+    flex-direction: column;
+}
+header div button{
+    width: 15%;
+    height: 40px;
+    
+}

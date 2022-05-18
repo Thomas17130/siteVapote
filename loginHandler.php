@@ -22,13 +22,12 @@ if(in_array("", $_POST)){
     $result = $results['data'];
     $msg = $results['msg'];
 }
-
+echo($results);
 $lastUrl = $_SERVER['HTTP_REFERER'];
 
 if ($msgError) {
     header("Location: $lastUrl?error=$msgError");
-}elseif ($msg
-) {
+}elseif (!$results || $msg == $msgError){
     header("Location: $lastUrl?error=$msg");
 }else{
     $_SESSION['id'] = $result->id;
