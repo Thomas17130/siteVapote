@@ -1,6 +1,6 @@
     <footer class="bg-secondary d-flex justify-content-evenly">
         <nav>
-            <ul class="list-group">
+            <ul class="list-group p-3">
                 <a class="list-group-item text-light bg-secondary" href="#">home</a>
                 <a class="list-group-item text-light bg-secondary" href="#">About</a>
                 <a class="list-group-item text-light bg-secondary" href="#">Contact</a>
@@ -12,9 +12,9 @@
             <img class="" src="../assets/img/logo_mvp.jpg" alt="logo_mvc">
         </div>
         <div class="my-auto">
-            <img class="w-25" src="assets/img/facebook.png" alt="Facebook">
-            <img class="w-25" src="assets/img/twitter.jpg" alt="Twitter">
-            <img class="w-25" src="assets/img/insta.jpg" alt="Instagram">
+            <img class="w-25 p-3" src="assets/img/facebook.png" alt="Facebook">
+            <img class="w-25 p-3" src="assets/img/twitter.jpg" alt="Twitter">
+            <img class="w-25 p-3" src="assets/img/insta.jpg" alt="Instagram">
         </div>
     </footer>
 </body>

@@ -29,7 +29,7 @@ function register($db, $firstname, $lastname, $email, $password, $nickname, $img
     }
 }
 function login($db){
-    
+   
 }
 function getUser($db){
 

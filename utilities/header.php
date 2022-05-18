@@ -74,7 +74,7 @@ if (strpos($index_page, $current_url) !== FALSE || strpos($index_page . 'index.p
             </ul>
         </nav>
         <?php if(!isset($_SESSION['id'])): ?>
-        <button type="button" class="btn btn-warning"><a class="nav-link text-light" href="">Sign In</a></button>
+        <button type="button" class="btn btn-warning"><a class="nav-link text-light" href="login.php">Sign In</a></button>
         <button type="button" class="btn btn-info"><a class="nav-link text-light" href="registerForm.php">Sign Up</a></button>
         <?php elseif(isset($_SESSION['id'])): ?>
         <button type="button" class="btn btn-danger"><a class="nav-link text-light" href="">Log Out</a></button>
