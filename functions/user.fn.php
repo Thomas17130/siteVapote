@@ -28,8 +28,24 @@ function register($db, $firstname, $lastname, $email, $password, $nickname, $img
         return $result; 
     }
 }
-function login($db){
-   
+function login($db, $email, $password){
+    $check = $db->prepare('
+        SELECT * FROM user 
+        WHERE email = :email 
+    ');
+    $check->bindValue(':email', $email, PDO::PARAM_STR);
+    $check->execute();
+    $userExist = $check->fetchObject();
+    if(!$userExist){
+        return false;
+    }else{
+        $msgSuccess = 'Vous êtes connecté';
+        $msgError = 'l\'identifiant ou le mot de passe est incorrect';
+        return $result = array(
+            'data'=>$userExist ,
+            'msg'=>password_verify($password, $userExist->password) ? $msgSuccess : $msgError
+        );
+    }
 }
 function getUser($db){
 

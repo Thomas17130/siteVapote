@@ -40,5 +40,7 @@ $lastUrl = $_SERVER['HTTP_REFERER'];
 if ($msgError) {
     header("Location: $lastUrl?error=$msgError");
 }else{
+    $_SESSION['id'] = $db->lastInsertId();
+    login($db, $email, $password);
     header("Location: index.php?success=$msgSuccess");
 }
