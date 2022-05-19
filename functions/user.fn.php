@@ -1,16 +1,8 @@
 <?php
     //securiser le SQL, le XML...
 function register($db, $firstname, $lastname, $email, $password, $nickname, $img){
-    $check = $db->prepare('
-        SELECT * FROM user 
-        WHERE email = :email 
-        OR nickname = :nickname
-    ');
-    $check->execute(array(
-        ':email' => $email,
-        ':nickname' => $nickname
-    ));
-    if($userExist = $check->fetch()){
+    $check = getUser($db, $email);
+    if($userExist = $check->fetchObject()){
         $msgError = 'L\'utilisateur est déja pris.';
     }else{
         $insert = $db->prepare("
@@ -29,12 +21,7 @@ function register($db, $firstname, $lastname, $email, $password, $nickname, $img
     }
 }
 function login($db, $email, $password){
-    $check = $db->prepare('
-        SELECT * FROM user 
-        WHERE email = :email 
-    ');
-    $check->bindValue(':email', $email, PDO::PARAM_STR);
-    $check->execute();
+    $check = getUser($db, $email);
     $userExist = $check->fetchObject();
     if(!$userExist){
         return false;
@@ -47,20 +34,33 @@ function login($db, $email, $password){
         );
     }
 }
-function getUser($db){
-
+function getUser($db, $email){
+    $user = $db->prepare('
+        SELECT * FROM user 
+        WHERE email = :email 
+    ');
+    $user->bindValue(':email', $email, PDO::PARAM_STR);
+    $user->execute();
+    return $user;    
 }
-function setEmail($db){
-
-}
-function setPassword($db){
-
-}
-function setNickname($db){
-
-}
-function setImg($db){
-
+function updateUser($db, $firstname, $lastname, $email, $password, $nickname, $img){
+    $check = getUser($db, $email);
+    if($userExist = $check->fetchObject()){
+        $msgSuccess = 'Les modifications ont bien été pris en compte';
+    }else{
+        $insert = $db->prepare("
+            UPDATE `user`
+            (`email`, `password`, `nickname`, `img`)
+            SET (:email, :password, :nickname, :img)
+        "); 
+        $result = $insert->executeStatement(array(
+            'email'=> $email,
+            'password'=> $password,
+            'nickname'=> $nickname,
+            'img'=> $img
+        ));
+        return $result; 
+    } 
 }
 function removeUser($db){
 

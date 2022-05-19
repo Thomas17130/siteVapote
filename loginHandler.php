@@ -22,12 +22,12 @@ if(in_array("", $_POST)){
     $result = $results['data'];
     $msg = $results['msg'];
 }
-echo($results);
 $lastUrl = $_SERVER['HTTP_REFERER'];
 
 if ($msgError) {
     header("Location: $lastUrl?error=$msgError");
 }elseif (!$results || $msg == $msgError){
+    $msg = 'l\'identifiant ou le mot de passe est incorrect';
     header("Location: $lastUrl?error=$msg");
 }else{
     $_SESSION['id'] = $result->id;
@@ -37,3 +37,4 @@ if ($msgError) {
     $_SESSION['nickname'] = $result->nickname;
     header("Location: index.php?success=$msg");
 }
+

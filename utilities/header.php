@@ -54,16 +54,19 @@ if (strpos($index_page, $current_url) !== FALSE || strpos($index_page . 'index.p
 </head>
 <body>
     <header>
-      <div class="mx-3 d-flex justify-content-end">
+      <div class="mx-3 d-flex justify-content-evenly">
+        <a class="ms-3 my-auto" href="/"><img src="../assets/img/logo_mvp.jpg" alt="logo"></a>
         <h1 class="text-light"><?php echo $title; ?></h1>
-        <?php if(!isset($_SESSION['id'])): ?>
-        <button type="button" class="btn btn-warning"><a class="text-decoration-none text-light" href="login.php">Sign In</a></button>
-        <button type="button" class="btn btn-info"><a class="text-decoration-none text-light" href="registerForm.php">Sign Up</a></button>
-        <?php elseif(isset($_SESSION['id'])): ?>
-        <button type="button" class="btn btn-danger"><a class="text-decoration-none text-light" href="logoutHandler.php">Log Out</a></button>
-        <?php endif; ?>
+        <div class="row me-3">
+          <?php if(!isset($_SESSION['id'])): ?>
+          <button type="button" class="signIn text-light btn btn-warning mb-3 mx-auto">Sign In</button>
+          <button type="button" class="btn btn-info"><a class="text-decoration-none text-light mb-3 mx-auto" href="registerForm.php">Sign Up</a></button>
+          <?php elseif(isset($_SESSION['id'])): ?>
+          <button type="button" class="btn btn-danger"><a class="text-decoration-none text-light" href="logoutHandler.php">Log Out</a></button>
+          <?php endif; ?>
         </div>
-        <nav class="bg-primary py-2">
+      </div>
+        <nav class="bg-primary py-2 d-flex">
             <ul class="nav justify-content-center">
                 <li class=" nav-items"><a class="nav-link  text-light 
                     <?php if (strpos($index_page, $current_url) !== FALSE || strpos($index_page . 'index.php', $current_url) !== FALSE)echo'disabled bg-success';?>
@@ -81,6 +84,9 @@ if (strpos($index_page, $current_url) !== FALSE || strpos($index_page . 'index.p
                     <?php if (strpos($shop_page, $current_url) !== FALSE) echo 'disabled bg-success';?>
                     "href="shop.php">Shop</a></li>
             </ul>
+            <div class="login">
+              <?php include 'login.php' ?>
+            </div>
         </nav>
 
     </header>
