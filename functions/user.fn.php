@@ -43,24 +43,15 @@ function getUser($db, $email){
     $user->execute();
     return $user;    
 }
-function updateUser($db, $firstname, $lastname, $email, $password, $nickname, $img){
-    $check = getUser($db, $email);
-    if($userExist = $check->fetchObject()){
-        $msgSuccess = 'Les modifications ont bien été pris en compte';
-    }else{
-        $insert = $db->prepare("
-            UPDATE `user`
-            (`email`, `password`, `nickname`, `img`)
-            SET (:email, :password, :nickname, :img)
-        "); 
-        $result = $insert->executeStatement(array(
-            'email'=> $email,
-            'password'=> $password,
-            'nickname'=> $nickname,
-            'img'=> $img
-        ));
-        return $result; 
-    } 
+function updateUser($db, $firstname, $lastname, $email, $nickname, $img){
+    $db = "UPDATE user SET (`firstname`= :firstname, `lastname`= :lastname, `email`= :email, `nickname`= :nickname ) WHERE id = $id";
+    $q = $db->prepare($db);
+    $q->bindValue(':firstname', $firstname, PDO::PARAM_STR); 
+    $q->bindValue(':lastname', $lastname, PDO::PARAM_STR); 
+    $q->bindValue(':email', $email, PDO::PARAM_STR); 
+    $q->bindValue(':nickname', $nickname, PDO::PARAM_STR); 
+    $q->bindValue(':img', $img, PDO::PARAM_STR); 
+    $q->execute();
 }
 function removeUser($db){
 

@@ -20,7 +20,7 @@ $user = $userStatement->fetchObject();
                 <input class="form-control mb-3 col-8" type="file" name="image">
             </div>
             <div class="col-auto">
-            <a class="btn btn-primary text-center" href="index.php">Valider</a>
+            <button class="btn btn-primary text-center" type="submit">Valider</button>
             </div>
         </div>
         <?php if(isset($_GET['error'])){

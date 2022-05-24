@@ -1,47 +1,83 @@
-<?php
+<?php 
 
 require __DIR__ . '/config/config.php';
 require __DIR__ . '/functions/database.fn.php';
 require __DIR__ . '/functions/user.fn.php';
 
-$db = getPdoLink($config); 
 
+$db = getPdoLink($config); 
 if (empty(session_id())) {
     session_start();
 }
-
-$userForm = array(
-    $firstname = htmlentities(trim($_POST['firstname']),ENT_QUOTES),
-    $lastname = htmlentities(trim($_POST['lastname']),ENT_QUOTES),
-    $email = filter_var(htmlentities(trim($_POST['email']),FILTER_VALIDATE_EMAIL)),
-    $password = htmlentities(trim($_POST['password']),ENT_QUOTES),
-    $nickname = htmlentities(trim($_POST['nickname']),ENT_QUOTES),
-    $img = 'assets/img/img_avatar3.png'
+$valid = array(
+    'email'=> false,
 );
+$id = $_SESSION['id']; 
+$email = null ;
+$firstname = null;
+$lastname = null;
+$nickname = null; 
+$img = null;
 
 
-if(in_array("", $userForm)){
-    $msgError = 'Tout les champs sont obligatoires';
-}else {
-    if(!$email){
-    $msgError = 'l\'email n\'est pas valide';
-    }elseif(strlen($password)<8){
-        $msgError = 'le mot de passe doit contenir au moins 8 caractères';
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { 
+// on initialise nos erreurs $nameError = null; 
+//$firstnameError = null; $ageError = null; $telError = null; $emailError = null; $paysError = null; $commentError = null; 
+//$metierError = null; $urlError = null; // On assigne nos valeurs $name = $_POST['name']; $firstname = $_POST['firstname']; 
+//$age = $_POST['age']; $tel = $_POST['tel']; $email = $_POST['email']; $pays = $_POST['pays']; $comment = $_POST['comment']; $
+//metier = $_POST['metier']; $url = $_POST['url']; // On verifie que les champs sont remplis $valid = true; if (empty($name)) { 
+//$nameError = 'Please enter Name'; $valid = false; } if (empty($firstname)) { $firstnameError = 'Please enter firstname'; $valid = false; 
+//} 
+    if (empty($_POST['email'])){ 
+        $emailError = 'Entrer son adresse email';  
+    }else if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){ 
+        $emailError = 'Entrer une adresse email valide'; 
     }else{
-        $result = updateUser($db, $email, $password, $nickname, $img);
-        if($result){
-            $msgSuccess = 'le compte a bien été modifié';
-        }else{
-            $msgError = 'Une erreur s\'est produite';
-        }
+        $email = htmlentities(trim($_POST['email']));
+        $valid['email'] = true;
     }
+    if(empty($_POST['firstname'])){
+        $firstnameError = 'entrez votre prénom';
+    }else{
+        $firstname = htmlentities(trim($_POST['firstname']));
+    }
+    if (empty($_POST['lastname'])) {
+        $lastnameError = 'Entrez votre nom';
+    } else {
+        $lastname = htmlentities(trim($_POST['lastname']));
+    }
+    if (empty($_POST['nickname'])) {
+        $nicknameError = 'Entrez votre pseudo';
+    } else {
+        $nickname = htmlentities(trim($_POST['nickname']));
+    }
+    if (empty($_POST['img'])) {
+        $imgError = 'Inserez une image';
+    } else {
+        $img = htmlentities(trim($_POST['img']));
+    }
+    
+    if($valid){
+        updateUser();
+    }else if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $emailSuccess = 'Votre adresse email a bien été modifié'; $valid = false; 
+        set($email,['email']);
+    }else if (empty($firstname)) {
+        $firstnameSuccess = 'votre prénom a bien été modifié'; $valid = false; 
+        set($firstname, ['firstname']);
+    }else if (empty($lastname)) {
+        $lastnameSuccess = 'votre nom a bien été modifié'; $valid = false; 
+        set($lastname, ['lastname']);
+    }else if (isset($nickname)) {
+        $nicknameSuccess = 'votre pseudo a bien été modifié'; $valid = false;
+        set($nickname, ['nickname']); 
+    }else if (empty($img)) {
+        $imgSuccess = 'votre avatar a bien été modifié'; $valid = false; 
+        set($img, ['img']);
+    }else{
+        $valid = false;
+    }
+    // mise à jour des donnés if ($valid) { $pdo = Database::connect(); $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 
-$lastUrl = $_SERVER['HTTP_REFERER'];
-if ($msgError) {
-    header("Location: $lastUrl?error=$msgError");
-}else{
-    $_SESSION['id'] = $db->lastInsertId();
-    login($db, $email, $password);
-    header("Location: index.php?success=$msgSuccess");
-}
+header("Location: index.php");
