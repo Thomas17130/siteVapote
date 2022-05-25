@@ -7,6 +7,12 @@ $user = $userStatement->fetchObject();
 <form class="mx-auto" action="updateUserHandler.php" method="POST">
         <div class="d-flex flex-column align-items-center">
             <div class="col-4">
+                <div class="">
+                    <input class="form-control text-center" type="email" name="firstname" placeholder="<?= $user->firstname ?>">
+                </div>
+                <div class="">
+                    <input class="form-control text-center" type="email" name="lastname" placeholder="<?= $user->lastname ?>">
+                </div>
                 <input class="form-control text-center" type="email" name="email" placeholder="<?= $user->email ?>">
             </div>
             <div class="col-4">

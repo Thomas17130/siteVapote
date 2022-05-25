@@ -40,25 +40,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
         $firstnameError = 'entrez votre prénom';
     }else{
         $firstname = htmlentities(trim($_POST['firstname']));
+        $valid['firstname'] = true;
     }
     if (empty($_POST['lastname'])) {
         $lastnameError = 'Entrez votre nom';
     } else {
         $lastname = htmlentities(trim($_POST['lastname']));
+        $valid['lastname'] = true;
     }
     if (empty($_POST['nickname'])) {
         $nicknameError = 'Entrez votre pseudo';
     } else {
         $nickname = htmlentities(trim($_POST['nickname']));
+        $valid['nickanme'] = true; 
     }
     if (empty($_POST['img'])) {
         $imgError = 'Inserez une image';
     } else {
         $img = htmlentities(trim($_POST['img']));
+        $valid['img'] = true;
     }
     
     if($valid){
-        updateUser();
+        updateUser($db, $firstname, $lastname, $email, $nickname, $img, $id);
     }else if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $emailSuccess = 'Votre adresse email a bien été modifié'; $valid = false; 
         set($email,['email']);

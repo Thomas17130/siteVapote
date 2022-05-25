@@ -43,9 +43,10 @@ function getUser($db, $email){
     $user->execute();
     return $user;    
 }
-function updateUser($db, $firstname, $lastname, $email, $nickname, $img){
-    $db = "UPDATE user SET (`firstname`= :firstname, `lastname`= :lastname, `email`= :email, `nickname`= :nickname ) WHERE id = $id";
+function updateUser($db, $firstname, $lastname, $email, $nickname, $img, $id){
+    $db = "UPDATE user SET (`firstname`= :firstname, `lastname`= :lastname, `email`= :email, `nickname`= :nickname, `img`= :img ) WHERE id = $id";
     $q = $db->prepare($db);
+    $q->bindValue('id', $id, PDO::PARAM_STR);
     $q->bindValue(':firstname', $firstname, PDO::PARAM_STR); 
     $q->bindValue(':lastname', $lastname, PDO::PARAM_STR); 
     $q->bindValue(':email', $email, PDO::PARAM_STR); 
