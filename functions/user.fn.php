@@ -43,10 +43,13 @@ function getUser($db, $email){
     $user->execute();
     return $user;    
 }
-function updateUser($db, $firstname, $lastname, $email, $nickname, $img, $id){
-    $db = "UPDATE user SET (`firstname`= :firstname, `lastname`= :lastname, `email`= :email, `nickname`= :nickname, `img`= :img ) WHERE id = $id";
-    $q = $db->prepare($db);
-    $q->bindValue('id', $id, PDO::PARAM_STR);
+function updateUser($db, $id, $firstname, $lastname, $email, $nickname, $img){
+    $q = $db->prepare('
+        UPDATE user 
+        SET (`firstname`= :firstname, `lastname`= :lastname, `email`= :email, `nickname`= :nickname, `img`= :img ) 
+        WHERE id = :id
+    ');
+    $q->bindValue(':id', $id, PDO::PARAM_STR);
     $q->bindValue(':firstname', $firstname, PDO::PARAM_STR); 
     $q->bindValue(':lastname', $lastname, PDO::PARAM_STR); 
     $q->bindValue(':email', $email, PDO::PARAM_STR); 
@@ -54,6 +57,8 @@ function updateUser($db, $firstname, $lastname, $email, $nickname, $img, $id){
     $q->bindValue(':img', $img, PDO::PARAM_STR); 
     $q->execute();
 }
-function removeUser($db){
-
+function removeUser($db, $id){
+    $removeUser = $db->prepare('DELETE FROM `user` WHERE `id` = :id');
+    $removeUser->bindValue(':id', $id, PDO::PARAM_STR);
+    $removeUser->execute();
 }

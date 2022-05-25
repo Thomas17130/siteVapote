@@ -23,10 +23,10 @@ $user = $userStatement->fetchObject();
             </div>
 
             <div class="col-4">
-                <input class="form-control mb-3 col-8" type="file" name="image">
+                <input class="form-control mb-3 col-8" type="file" name="image" placeholder="<?= $user->img ?>">
             </div>
             <div class="col-auto">
-            <button class="btn btn-primary text-center" type="submit">Valider</button>
+            <a class="btn btn-primary text-center" type="submit" href="index.php">Valider</a>
             </div>
         </div>
         <?php if(isset($_GET['error'])){

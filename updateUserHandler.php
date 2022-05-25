@@ -13,21 +13,14 @@ $valid = array(
     'email'=> false,
 );
 $id = $_SESSION['id']; 
-$email = null ;
-$firstname = null;
-$lastname = null;
-$nickname = null; 
-$img = null;
+$email = $_SESSION['email'] ;
+$firstname = $_SESSION['firstname'];
+$lastname = $_SESSION['lastname'];
+$nickname = $_SESSION['nickname']; 
+$img = 'assets/img/img_avatar3.png';
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) { 
-// on initialise nos erreurs $nameError = null; 
-//$firstnameError = null; $ageError = null; $telError = null; $emailError = null; $paysError = null; $commentError = null; 
-//$metierError = null; $urlError = null; // On assigne nos valeurs $name = $_POST['name']; $firstname = $_POST['firstname']; 
-//$age = $_POST['age']; $tel = $_POST['tel']; $email = $_POST['email']; $pays = $_POST['pays']; $comment = $_POST['comment']; $
-//metier = $_POST['metier']; $url = $_POST['url']; // On verifie que les champs sont remplis $valid = true; if (empty($name)) { 
-//$nameError = 'Please enter Name'; $valid = false; } if (empty($firstname)) { $firstnameError = 'Please enter firstname'; $valid = false; 
-//} 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {  
     if (empty($_POST['email'])){ 
         $emailError = 'Entrer son adresse email';  
     }else if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){ 
@@ -52,17 +45,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
         $nicknameError = 'Entrez votre pseudo';
     } else {
         $nickname = htmlentities(trim($_POST['nickname']));
-        $valid['nickanme'] = true; 
+        $valid['nickn ame'] = true; 
     }
     if (empty($_POST['img'])) {
         $imgError = 'Inserez une image';
     } else {
-        $img = htmlentities(trim($_POST['img']));
-        $valid['img'] = true;
+         $img = htmlentities(trim($_POST['img']));
+         $valid['img'] = true;
     }
     
     if($valid){
-        updateUser($db, $firstname, $lastname, $email, $nickname, $img, $id);
+        updateUser($db, $id, $firstname, $lastname, $email, $nickname, $img);
     }else if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $emailSuccess = 'Votre adresse email a bien été modifié'; $valid = false; 
         set($email,['email']);
@@ -76,12 +69,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST)) {
         $nicknameSuccess = 'votre pseudo a bien été modifié'; $valid = false;
         set($nickname, ['nickname']); 
     }else if (empty($img)) {
-        $imgSuccess = 'votre avatar a bien été modifié'; $valid = false; 
-        set($img, ['img']);
+         $imgSuccess = 'votre avatar a bien été modifié'; $valid = false; 
+         set($img, ['img']);
     }else{
-        $valid = false;
+         $valid = false;
     }
-    // mise à jour des donnés if ($valid) { $pdo = Database::connect(); $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }
 
 header("Location: index.php");
